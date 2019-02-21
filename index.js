@@ -67,10 +67,11 @@ server.get('/api/cohorts', async(req,res)=>{
 
   server.get('/api/cohorts/:id/students', async(req,res)=>{
     try{
-      const cohorts = await db('cohorts').where({id:req.params.id});
-      const students = await db('students').where({cohort_id:req.params.cohort_id});
+      
+        const cohorts = await db('cohorts').join('students', 'cohorts.id', '=', 'students.cohort_id');
+      
 
-      res.status(200).json(students);
+      res.status(200).json(cohorts);
     }catch(error){
       res.status(500).json(error);
     }
